@@ -10,3 +10,5 @@ jobs:
   trigger_check:
     name: terraform_plan
     uses: atulec016/test_demo/.github/workflows/testing.yml@central
+    secrets:
+          DATABRICKS_PAT : ${{ secrets.DATABRICKS_PAT }}
