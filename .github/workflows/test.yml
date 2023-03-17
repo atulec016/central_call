@@ -1,13 +1,12 @@
 name: trigger check Plan
 
 on:
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
 
 jobs:
   trigger_check:
-    if: >
-      github.event.issue.pull_request &&
-      startsWith(github.event.comment.body, 'deploy pipeline')
     name: terraform_plan
     uses: atulec016/test_demo/.github/workflows/testing.yml@central
