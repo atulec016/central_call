@@ -11,7 +11,5 @@ jobs:
       startsWith(github.event.comment.body, 'deploy pipeline')
     name: terraform_plan
     uses: atulec016/test_demo/.github/workflows/testing.yml@central
-    with:
-      BRANCH: ${{ steps.fetch-branch-name.outputs.head_ref }}
     secrets:
       DATABRICKS_PAT: ${{ secrets.GIT_ACCESS_TOKEN }}
