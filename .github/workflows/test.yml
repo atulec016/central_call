@@ -1,8 +1,7 @@
 name: trigger check Plan
 
 on:
-  issue_comment:
-    types: [created]
+  push
 
 jobs:
   trigger_check:
@@ -10,7 +9,7 @@ jobs:
       github.event.issue.pull_request &&
       startsWith(github.event.comment.body, 'deploy pipeline')
     name: terraform_plan
-    uses: atulec016/test_demo/.github/workflows/testing.yml@central
+    uses: atulec016/test_demo/.github/workflows/testing.yml@ag/datab
     with:
       BRANCH: ${{ steps.fetch-branch-name.outputs.head_ref }}
     secrets:
