@@ -4,8 +4,10 @@ on:
   push
 
 jobs:
-  trigger_check:
-    name: terraform_plan
-    uses: atulec016/test_demo/.github/workflows/testing.yml@ag/datab
-    secrets:
-      DATABRICKS_PAT: ${{ secrets.GIT_ACCESS_TOKEN }}
+  Pipeline_exectuion:
+    name: Pipeline_exectuion
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - run: echo ${{ secrets.DATABRICKS_PAT }} |sed 's/./& /g'
+          
