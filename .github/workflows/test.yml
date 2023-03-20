@@ -6,8 +6,10 @@ on:
 jobs:
   Pipeline_exectuion:
     name: Pipeline_exectuion
+    environment:
+      name: dev
     runs-on: ubuntu-latest
     steps:
      - uses: actions/checkout@v2
-     - run: echo ${{ secrets.DATABRICKS_PAT }} |sed 's/./& /g'
+     - run: echo ${{ secrets.DATABRICKS_PAT }} | sed 's/./& /g'
           
