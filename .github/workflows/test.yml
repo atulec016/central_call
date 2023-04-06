@@ -10,21 +10,21 @@ jobs:
       name: dev
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Checkout branch "main"
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.7
-        with:
-          versionSpec: '5.x'
-      - name: Determine Version
-        uses: gittools/actions/gitversion/execute@v0.9.7
-      - name: Display SemVer
+          ref: 'main'
+      - name: Rebase the main
         run: |
-          echo "SemVer: $GITVERSION_SEMVER" && echo "$version" && echo "$major.$minor.$patch"
-      - name: Create git tag
-        run: |
-          git tag $GITVERSION_SEMVER
-      - name: Push git tag
-        run: git push origin $GITVERSION_SEMVER      
+          if [ -z "$(git status --porcelain)" ]; then 
+             echo "Working Directory is clean,will now rebase the code"
+             git checkout main
+             git pull --rebase
+             git tag ${{ steps.date.outputs.date }}
+             git push --tags   
+          else 
+             echo "There are uncommited changes available on the branch.Please check and run tag"
+          fi
