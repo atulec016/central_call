@@ -1,11 +1,11 @@
-name: trigger check Plan
+name: Workflow to create Tags with latest Date
 
 on:
   push
 
 jobs:
-  Pipeline_exectuion:
-    name: Pipeline_exectuion
+  Create_Tag:
+    name: Create_Tag
     environment:
       name: dev
     runs-on: ubuntu-latest
