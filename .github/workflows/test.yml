@@ -1,7 +1,7 @@
 name: Workflow to create Tags with latest Date
 
 on:
-  push
+  workflow_dispatch
 
 jobs:
   Create_Tag:
