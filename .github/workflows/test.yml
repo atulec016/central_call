@@ -18,17 +18,16 @@ jobs:
         with:
           ref: 'main'
       - name: Rebase the main
+        env:
+          GIT_TOKEN : ${{ secrets.GIT_TOKEN }}
         run: |
           if [ -z "$(git status --porcelain)" ]; then 
              echo "Working Directory is clean,will now rebase the code"
              git checkout main
-             git pull --rebase   
+             git pull --rebase
+             git tag ${{ steps.date.outputs.date }} main
+             git push origin ${{ steps.date.outputs.date }}
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
           fi
-      - name: Tag snapshot
-        uses: tvdias/github-tagger@v0.0.1
-        with:
-          repo-token: ${{ secrets.GIT_TOKEN }}
-          tag: ${{ steps.date.outputs.date }}
