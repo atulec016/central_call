@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%d%m%y')"
+        run: echo "::set-output name=date::$(date +'%y%m%d')"
       - name: Checkout branch "main"
         uses: actions/checkout@v3
         with:
@@ -29,11 +29,14 @@ jobs:
              git pull --rebase
              recent_tag=$(git tag --sort=-creatordate | head -n 1)
              echo "The recent tag is : $recent_tag"
-             echo "Checking if any tag realese is there"
+             echo "Check if rel- is present in the recent tag"
              if [ -n "$recent_tag" ]; then
                 rel=$(echo "$recent_tag" | grep -r "rel")
                 if [ -n "$rel"]; then 
                   echo "Found a Release tag"
+                  rl_num=$(echo "$recent_tag"| awk -F"-" '{print $NF}')
+                  new_tag=${{ steps.date.outputs.date }}-$rl_num-0001
+                  echo $new_tag
                 else
                   echo "No tag with Rel"
                 fi
