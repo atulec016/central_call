@@ -32,13 +32,27 @@ jobs:
              echo "Check if rel- is present in the recent tag"
              if [ -n "$recent_tag" ]; then
                 rel=$(echo "$recent_tag" | grep -r "rel")
-                if [ -n "$rel"]; then 
-                  echo "Found a Release tag"
-                  rl_num=$(echo "$recent_tag"| awk -F"-" '{print $NF}')
-                  new_tag=${{ steps.date.outputs.date }}-$rl_num-0001
+                if [ -n "$rel"]; then
+                  echo "rel- tag is present"
+                  rel_num=$(echo "$recent_tag"|awk -F"-" '{print $NF}')
+                  new_tag=$(date '+%Y%m%d')-${rel_num}-0001
                   echo $new_tag
+                  sleep 2s
                 else
-                  echo "No tag with Rel"
+                  echo "no rel- Tag present"
+                  last_value=$(echo $string | awk -F"-" '{print $3}')
+                  if [-n "$last_value"]
+                     new_value=$((last_value+1))
+                     new_value_str=$(printf "%04d" $new_value)
+                     echo $new_value_str
+	                   second_value=$(echo $string | awk -F"-" '{print $2}')
+                     new_tag=$(date '+%Y%m%d')-${second_value}-${new_value_str}
+	                   echo $new_tag
+                  else
+                    echo "Tag doesnot have any sub tag number"
+	                  new_tag=$(date '+%Y%m%d')-${second_value}-0001
+	                  echo $new_tag
+                  fi   
                 fi
              else
                echo "There is no Tag to start.Please tag it properly"
