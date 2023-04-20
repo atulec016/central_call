@@ -24,13 +24,13 @@ jobs:
         run: |
 
           if [ -z "$(git status --porcelain)" ]; then 
-             echo "Working Directory is clean,will now rebase the code"
-             git checkout main
-             git pull --rebase
-             recent_tag=$(git tag --sort=-creatordate | head -n 1)
-             echo "The recent tag is : $recent_tag"
-             echo "Check if rel- is present in the recent tag"
-             if [ -n "$recent_tag" ]; then
+            echo "Working Directory is clean,will now rebase the code"
+            git checkout main
+            git pull --rebase
+            recent_tag=$(git tag --sort=-creatordate | head -n 1)
+            echo "The recent tag is : $recent_tag"
+            echo "Check if rel- is present in the recent tag"
+            if [ -n "$recent_tag" ]; then
                 rel=$(echo "$recent_tag" | grep -r "rel")
                 if [ -n "$rel"]; then
                   echo "rel- tag is present"
@@ -42,23 +42,21 @@ jobs:
                   echo "no rel- Tag present"
                   last_value=$(echo "$recent_tag" | awk -F"-" '{print $3}')
                   if [-n "$last_value"]
-                     new_value=$((last_value+1))
-                     new_value_str=$(printf "%04d" $new_value)
-                     echo $new_value_str
-	             second_value=$(echo "$recent_tag" | awk -F"-" '{print $2}')
-                     new_tag=$(date '+%Y%m%d')-${second_value}-${new_value_str}
-	             echo $new_tag
+                    new_value=$((last_value+1))
+                    new_value_str=$(printf "%04d" $new_value)
+                    echo $new_value_str
+                    new_tag=$(date '+%Y%m%d')-${second_value}-${new_value_str}
+                    second_value=$(echo "$recent_tag"|awk -F"-" '{print $2}')
+                    echo ${new_tag}
                   else
                     echo "Tag doesnot have any sub tag number"
-	            new_tag=$(date '+%Y%m%d')-${second_value}-0001
-	            echo $new_tag
+                    new_tag=$(date '+%Y%m%d')-${second_value}-0001
+                    echo $new_tag
                   fi   
                 fi
              else
                echo "There is no Tag to start.Please tag it properly"
-             fi
-             #git tag ${{ steps.date.outputs.date }} main
-             #git push origin ${{ steps.date.outputs.date }}
+            fi
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
