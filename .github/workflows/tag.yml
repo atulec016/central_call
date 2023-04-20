@@ -36,6 +36,7 @@ jobs:
                   echo "No tag with rel"
                 else
                   echo "Found a Release tag"
+                fi
              else
                
              fi
