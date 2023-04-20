@@ -30,8 +30,10 @@ jobs:
              recent_tag=$(git tag --sort=-creatordate | head -n 1)
              echo "The recent tag is : $recent_tag"
              echo "Checking if any tag realese is there"
-             rel=$(echo "$recent_tag" | grep -q "rel")
-             echo $rel
+             if [ -n "$recent_tag" ]; then
+                rel=$(echo "$recent_tag" | grep -q "rel")
+                echo $rel
+             fi
              #git tag ${{ steps.date.outputs.date }} main
              #git push origin ${{ steps.date.outputs.date }}
           else 
