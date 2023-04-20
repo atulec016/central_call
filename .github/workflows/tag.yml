@@ -32,7 +32,12 @@ jobs:
              echo "Checking if any tag realese is there"
              if [ -n "$recent_tag" ]; then
                 rel=$(echo "$recent_tag" | grep -r "rel")
-                echo $rel
+                if [ -n "$rel"]; then 
+                  echo "No tag with rel"
+                else
+                  echo "Found a Release tag"
+             else
+               
              fi
              #git tag ${{ steps.date.outputs.date }} main
              #git push origin ${{ steps.date.outputs.date }}
