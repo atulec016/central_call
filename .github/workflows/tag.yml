@@ -31,7 +31,7 @@ jobs:
              echo "The recent tag is : $recent_tag"
              echo "Checking if any tag realese is there"
              if [ -n "$recent_tag" ]; then
-                rel=$(echo "$recent_tag" | grep -q "rel")
+                rel=$(echo "$recent_tag" | grep "rel")
                 echo $rel
              fi
              #git tag ${{ steps.date.outputs.date }} main
