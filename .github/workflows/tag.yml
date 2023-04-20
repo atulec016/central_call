@@ -1,0 +1,37 @@
+name: Workflow to create Tags
+
+on:
+  workflow_dispatch
+
+jobs:
+  Create_Tag:
+    name: Create_Tag
+    environment:
+      name: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%d%m%y')"
+      - name: Checkout branch "main"
+        uses: actions/checkout@v3
+        with:
+          ref: 'main'
+      - name: Rebase the main
+        env:
+          GIT_TOKEN : ${{ secrets.GIT_TOKEN }}
+        run: |
+          recent_tag=$(git tag --sort=-creatordate | head -n 1)
+          echo "The recent tag is : $recent_tag"
+          if [ -z "$(git status --porcelain)" ]; then 
+             echo "Working Directory is clean,will now rebase the code"
+             git checkout main
+             git pull --rebase
+             recent_tag=$(git tag --sort=-creatordate | head -n 1)
+             echo "The recent tag is : $recent_tag"
+             #git tag ${{ steps.date.outputs.date }} main
+             #git push origin ${{ steps.date.outputs.date }}
+          else 
+             echo "There are uncommited changes available on the branch.Please check and run tag"
+             exit 1
+          fi
