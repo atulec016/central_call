@@ -45,13 +45,13 @@ jobs:
                      new_value=$((last_value+1))
                      new_value_str=$(printf "%04d" $new_value)
                      echo $new_value_str
-	                   second_value=$(echo $string | awk -F"-" '{print $2}')
+	             second_value=$(echo $string | awk -F"-" '{print $2}')
                      new_tag=$(date '+%Y%m%d')-${second_value}-${new_value_str}
-	                   echo $new_tag
+	             echo $new_tag
                   else
                     echo "Tag doesnot have any sub tag number"
-	                  new_tag=$(date '+%Y%m%d')-${second_value}-0001
-	                  echo $new_tag
+	            new_tag=$(date '+%Y%m%d')-${second_value}-0001
+	            echo $new_tag
                   fi   
                 fi
              else
