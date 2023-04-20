@@ -26,7 +26,7 @@ jobs:
              git checkout main
              git pull --rebase
              recent_tag=$(git tag --sort=-creatordate | head -n 1)
-             echo "The recent tag is : $recent_tag
+             echo "The recent tag is : $recent_tag"
              #git tag ${{ steps.date.outputs.date }} main
              #git push origin ${{ steps.date.outputs.date }}
           else 
