@@ -33,9 +33,9 @@ jobs:
              if [ -n "$recent_tag" ]; then
                 rel=$(echo "$recent_tag" | grep -r "rel")
                 if [ -n "$rel"]; then 
-                  echo "No tag with rel"
-                else
                   echo "Found a Release tag"
+                else
+                  echo "No tag with Rel"
                 fi
              else
                echo "There is no Tag to start.Please tag it properly"
