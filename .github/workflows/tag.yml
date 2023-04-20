@@ -38,7 +38,7 @@ jobs:
                   echo "Found a Release tag"
                 fi
              else
-               
+               echo "There is no Tag to start.Please tag it properly"
              fi
              #git tag ${{ steps.date.outputs.date }} main
              #git push origin ${{ steps.date.outputs.date }}
