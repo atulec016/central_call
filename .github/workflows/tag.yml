@@ -65,9 +65,9 @@ jobs:
                 echo "There is no Tag to start.
                 new_tag=$(date '+%Y%m%d')-0001-0001
             fi
-            echo $new_tag
-            git tag ${{ steps.date.outputs.date }} main
-            git push origin ${{ steps.date.outputs.date }}
+          echo $new_tag
+          git tag ${{ steps.date.outputs.date }} main
+          git push origin ${{ steps.date.outputs.date }}
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
