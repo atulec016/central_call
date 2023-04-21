@@ -62,8 +62,8 @@ jobs:
                    sleep 2s
                 fi
                 echo $new_tag
-                git tag ${{ steps.date.outputs.date }} main
-                git push origin ${{ steps.date.outputs.date }}
+                git tag $new_tag main
+                git push origin $new_tag
             fi
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
