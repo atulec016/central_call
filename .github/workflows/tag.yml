@@ -1,4 +1,4 @@
-name: Workflow to create Tags
+name: Workflow to create Tags automation
 
 on: 
   workflow_dispatch:
