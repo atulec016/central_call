@@ -1,7 +1,6 @@
 name: Workflow to create Tags
 
-on:
-  workflow_dispatch
+on: workflow_dispatch
 
 jobs:
   Create_Tag:
