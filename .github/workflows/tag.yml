@@ -1,8 +1,7 @@
 name: Workflow to create Tags
 
 on:
-  push:
-  workflow_dispatch:
+  workflow_dispatch
 
 jobs:
   Create_Tag:
@@ -13,7 +12,7 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%d%m%y')"
+        run: echo "::set-output name=date::$(date +'%y%m%d')"
       - name: Checkout branch "main"
         uses: actions/checkout@v3
         with:
@@ -22,20 +21,52 @@ jobs:
         env:
           GIT_TOKEN : ${{ secrets.GIT_TOKEN }}
         run: |
-
           if [ -z "$(git status --porcelain)" ]; then 
-             echo "Working Directory is clean,will now rebase the code"
-             git checkout main
-             git pull --rebase
-             recent_tag=$(git tag --sort=-creatordate | head -n 1)
-             echo "The recent tag is : $recent_tag"
-             echo "Checking if any tag realese is there"
-             if [ -n "$recent_tag" ]; then
-                rel=$(echo "$recent_tag" | grep -q "rel")
+            echo "Working Directory is clean,will now rebase the code"
+            git checkout main
+            git pull --rebase
+            recent_tag=$(git tag --sort=-creatordate | head -n 1)
+            echo "The recent tag is : $recent_tag"
+            echo "Check if rel- is present in the recent tag"
+            if [ -n "$recent_tag" ]; then
+                # To check the if the release tag is present with "rel".Format for the release tag : rel-<data>-<release_no>
+                rel=$(echo "${recent_tag}" | awk '/rel-/{print}')  
                 echo $rel
-             fi
-             #git tag ${{ steps.date.outputs.date }} main
-             #git push origin ${{ steps.date.outputs.date }}
+                sleep 3s
+                if [ -z "$rel" ]; then
+                   echo "Tag doesnot have rel-"
+                   last_value=$(echo $recent_tag | awk -F"-" '{print $3}')
+                   if [ -z "$last_value" ]; then
+                      echo "Tag does not have any sub tag number"
+                      second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
+                      if [ -z "$second_value" ]; then
+                        echo "Recent tag doesnot have any release number"
+                        new_tag=$(date '+%Y%m%d')-0001-0001
+                      else
+                        new_tag=$(date '+%Y%m%d')-"${second_value}"-0001
+                      fi
+                   else
+                      new_value=$((last_value+1))
+                      new_value_str=$(printf "%04d" "$new_value")
+                      echo $new_value_str
+                      second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
+                      new_tag=$(date '+%Y%m%d')-"${second_value}"-"${new_value_str}"
+                      echo $new_tag
+                   fi
+                else
+                   echo "rel- tag is present"
+                   rel_num=$(echo "$recent_tag"|awk -F"-" '{print $NF}')
+                   new_tag=$(date '+%Y%m%d')-"${rel_num}"-0001
+                   echo $new_tag
+                   sleep 2s
+                fi
+              else
+                echo "There is no Tag to start."
+                new_tag=$(date '+%Y%m%d')-0001-0001
+            fi
+            echo $new_tag
+            git tag $new_tag main
+            git push origin $new_tag
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
