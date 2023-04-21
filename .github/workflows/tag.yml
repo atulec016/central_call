@@ -31,7 +31,7 @@ jobs:
             echo "The recent tag is : $recent_tag"
             echo "Check if rel- is present in the recent tag"
             if [ -n "$recent_tag" ]; then
-                rel=$(echo "$recent_tag" | grep -r "rel")
+                rel=$(echo "$recent_tag"|grep -r "rel-")
                 if [ -n "$rel"]; then
                   echo "rel- tag is present"
                   rel_num=$(echo "$recent_tag"|awk -F"-" '{print $NF}')
