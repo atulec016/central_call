@@ -22,7 +22,6 @@ jobs:
         env:
           GIT_TOKEN : ${{ secrets.GIT_TOKEN }}
         run: |
-
           if [ -z "$(git status --porcelain)" ]; then 
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
@@ -31,28 +30,31 @@ jobs:
             echo "The recent tag is : $recent_tag"
             echo "Check if rel- is present in the recent tag"
             if [ -n "$recent_tag" ]; then
-                rel=$(echo "$recent_tag"|grep -r "rel-")
-                if [ -n "$rel"]; then
-                  echo "rel- tag is present"
-                  rel_num=$(echo "$recent_tag"|awk -F"-" '{print $NF}')
-                  new_tag=$(date '+%Y%m%d')-${rel_num}-0001
-                  echo $new_tag
-                  sleep 2s
+                rel=$(echo "${recent_tag}" | awk '/rel-/{print}')
+                echo $rel
+                sleep 3s
+                if [ -z "$rel" ]; then
+                   echo "no rel- Tag present"
+                   last_value=$(echo $recent_tag | awk -F"-" '{print $3}')
+                   if [ -z "$last_value" ]; then
+                      echo "Tag does not have any sub tag number"
+                      second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
+                      new_tag=$(date '+%Y%m%d')-"${second_value}"-0001
+                      echo $new_tag
+                   else
+                      new_value=$((last_value+1))
+                      new_value_str=$(printf "%04d" "$new_value")
+                      echo $new_value_str
+                      second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
+                      new_tag=$(date '+%Y%m%d')-"${second_value}"-"${new_value_str}"
+                      echo $new_tag
+                   fi
                 else
-                  echo "no rel- Tag present"
-                  last_value=$(echo "$recent_tag" | awk -F"-" '{print $3}')
-                  if [ -n "$last_value" ]; then
-                    new_value=$((last_value+1))
-                    new_value_str=$(printf "%04d" $new_value)
-                    echo $new_value_str
-                    new_tag=$(date '+%Y%m%d')-${second_value}-${new_value_str}
-                    second_value=$(echo "$recent_tag"|awk -F"-" '{print $2}')
-                    echo ${new_tag}
-                  else
-                    echo "Tag doesnot have any sub tag number"
-                    new_tag=$(date '+%Y%m%d')-${second_value}-0001
-                    echo $new_tag
-                  fi   
+                   echo "rel- tag is present"
+                   rel_num=$(echo "$recent_tag"|awk -F"-" '{print $NF}')
+                   new_tag=$(date '+%Y%m%d')-"${rel_num}"-0001
+                   echo $new_tag
+                   sleep 2s
                 fi
              else
                echo "There is no Tag to start.Please tag it properly"
