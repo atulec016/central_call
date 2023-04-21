@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: 
+        run: |
           echo "::set-output name=date::$(date +'%y%m%d')"
           echo "$(date +'%Z')" 
       - name: Checkout branch "main"
