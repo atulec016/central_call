@@ -67,6 +67,8 @@ jobs:
                 new_tag=$(date '+%Y%m%d')-0001-0001
             fi
             echo $new_tag
+            git config user.name  "atulec016"
+            git config user.email "atulec016@gmail.com"
             git tag -a $new_tag -m "New tag created"
             git push origin $new_tag
             #git push --tags
