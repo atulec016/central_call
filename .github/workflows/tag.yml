@@ -66,14 +66,8 @@ jobs:
                 fi
               else
                 echo "There is no Tag to start."
-                latest_tag=$(git describe --tags --abbrev=0 --always)
-                latest_tag_commit=$(git rev-list -n 1 $latest_tag)
-                latest_commit=$(git rev-parse main)
-                if [ "$latest_commit" = "$latest_tag_commit" ]; then
-                  echo "No new commits since the last tag"
-                else
-                   echo "There are new commits since the last tag"
-                fi
+                last_commit_tag=$(git tag --points-at $(git log --format="%H" -n 2 | tail -n 1))
+                echo $last_commit_tag
                 new_tag=$(date '+%Y%m%d')-0001-0001
             fi
             echo $new_tag
