@@ -68,7 +68,6 @@ jobs:
                 echo "There is no Tag to start."
                 new_tag=$(date '+%Y%m%d')-0001-0001
             fi
-            ec
             echo $new_tag
             git config user.name  "atulec016"
             git config user.email "atulec016@gmail.com"
