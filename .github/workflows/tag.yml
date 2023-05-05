@@ -27,7 +27,7 @@ jobs:
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
             git pull --rebase
-            recent_tag=$(git tag --sort=-taggerdate | head -n 1)
+            recent_tag=$(git tag --sort=-creatordate | head -n 1)
             echo "The recent tag is : $recent_tag"
             echo "Check if rel- is present in the recent tag"
             list_tags=$(git tag --sort=-creatordate)
@@ -66,6 +66,8 @@ jobs:
                 fi
               else
                 echo "There is no Tag to start."
+                last_commit_tag=$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1) --abbrev=0)
+                echo $last_commit_tag
                 new_tag=$(date '+%Y%m%d')-0001-0001
             fi
             echo $new_tag
