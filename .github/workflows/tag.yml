@@ -68,8 +68,8 @@ jobs:
             fi
             echo $new_tag
             git tag -a $new_tag -m "New tag created"
-            # git push origin $new_tag
-            git push --tags
+            git push origin $new_tag
+            #git push --tags
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
