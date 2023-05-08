@@ -24,6 +24,7 @@ jobs:
         env:
           GIT_TOKEN : ${{ secrets.GIT_TOKEN }}
         run: |
+          set -eux
           if [ -z "$(git status --porcelain)" ]; then 
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
