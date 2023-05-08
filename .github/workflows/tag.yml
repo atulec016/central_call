@@ -56,7 +56,7 @@ jobs:
                       echo $last_commit_tag
                       echo "this was last commit tag"
                       if [ "$last_commit_tag" == "$recent_tag" ]; then
-                        echo "New changes has been pushed to the branch"
+                        echo "New changes has been found on the branch"
                         second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
                         new_release_value=$((second_value+1))
                         new_release_value_str=$(printf "%04d" "$new_release_value")
