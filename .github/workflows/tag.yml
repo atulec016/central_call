@@ -52,6 +52,7 @@ jobs:
                       fi
                    else
                       last_commit_tag=$(git tag --points-at $(git log --format="%H" -n 2 | tail -n 1))
+                      echo $last_commit_tag
                       if [ "$last_commit_tag" == "$recent_tag" ]; then
                         echo "New changes has been pushed"
                         second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
