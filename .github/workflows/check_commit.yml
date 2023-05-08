@@ -1,0 +1,20 @@
+name: Check for new commit on main
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Check for new commit
+        run: |
+          if [ "$GITHUB_EVENT_NAME" == "push" ] && [ "$GITHUB_REF" == "refs/heads/main" ]; then
+            if [ "$github.event.before" != "$github.event.after" ]; then
+              echo "New commit detected on main branch!"
+            else
+              echo "No new commit on main branch since last run."
+            fi
+          fi
