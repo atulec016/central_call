@@ -55,20 +55,23 @@ jobs:
                       last_commit_tag=$(git tag --points-at $(git log --format="%H" -n 2 | tail -n 1)| head -n 1)
                       echo $last_commit_tag
                       echo "this was last commit tag"
-                      if [ "$last_commit_tag" == "$recent_tag" ]; then
-                        echo "New changes has been found on the branch."
-                        second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
-                        new_release_value=$((second_value+1))
-                        new_release_value_str=$(printf "%04d" "$new_release_value")
-                        new_tag=$(date '+%Y%m%d')-"${new_release_value_str}"-0001
-                      else  
-                        new_value=$((last_value+1))
-                        new_value_str=$(printf "%04d" "$new_value")
-                        echo $new_value_str
-                        second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
-                        new_tag=$(date '+%Y%m%d')-"${second_value}"-"${new_value_str}"
-                        echo $new_tag
-                      fi
+                      for i in $list_tags
+                      do
+                        if [ "$recent_tag" == "$i" ]; then
+                          echo "New changes has been found on the branch."
+                          second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
+                          new_release_value=$((second_value+1))
+                          new_release_value_str=$(printf "%04d" "$new_release_value")
+                          new_tag=$(date '+%Y%m%d')-"${new_release_value_str}"-0001
+                        else  
+                          new_value=$((last_value+1))
+                          new_value_str=$(printf "%04d" "$new_value")
+                          echo $new_value_str
+                          second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
+                          new_tag=$(date '+%Y%m%d')-"${second_value}"-"${new_value_str}"
+                          echo $new_tag
+                        fi
+                      done
                    fi
                 else
                    echo "rel- tag is present"
