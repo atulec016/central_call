@@ -57,7 +57,7 @@ jobs:
                         second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
                         new_release_value=$((second_value+1))
                         new_release_value_str=$(printf "%04d" "$new_release_value")
-                        new_tag=$(date '+%Y%m%d')-"${new_release_value_str}"-0001"
+                        new_tag=$(date '+%Y%m%d')-"${new_release_value_str}"-0001
                       else  
                         new_value=$((last_value+1))
                         new_value_str=$(printf "%04d" "$new_value")
