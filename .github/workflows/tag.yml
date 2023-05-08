@@ -52,12 +52,12 @@ jobs:
                         new_tag=$(date '+%Y%m%d')-"${second_value}"-0001
                       fi
                    else
-                      last_commit_tag=$(git tag --points-at $(git log --format="%H" -n 2 | tail -n 1)| head -n 1)
+                      last_commit_tag=$(git tag --points-at $(git log --format="%H" -n 2 | tail -n 1)| head -n 1 |sort)
                       echo $last_commit_tag
                       echo "this was last commit tag"
                       for i in $list_tags
                       do
-                        if [ "$recent_tag" == "$i" ]; then
+                        if [ "$recent_tag" == "$last_commit_tag" ]; then
                           echo "New changes has been found on the branch."
                           second_value=$(echo $recent_tag | awk -F"-" '{print $2}')
                           new_release_value=$((second_value+1))
