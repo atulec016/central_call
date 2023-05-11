@@ -14,6 +14,7 @@ jobs:
           fetch-depth: 0
       - name: Code check for commit and update the branch
         run: |
+          set -eux
           if [ -z "$(git status --porcelain)" ]; then 
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
