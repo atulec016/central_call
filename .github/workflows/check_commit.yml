@@ -53,7 +53,6 @@ jobs:
                         release_no=$(echo $recent_tag | awk -F"-" '{print $2}')
                         new_tag=$(date '+%Y%m%d')-"${commit_number}"-"${new_value_str}"
                         echo $new_tag
-                        release_note=$( git log "${new_tag}".."${recent_tag}" --pretty="%s")
                       fi
                    fi
                 else
@@ -69,8 +68,8 @@ jobs:
             echo $new_tag
             git tag $new_tag main
             git push origin $new_tag
-            release_note=$(git log "${new_tag}".."${recent_tag}" --pretty="%s")
-            echo $release_note >> $GITHUB_STEP_SUMMARY
+            release_note=$(git log ${new_tag}..${recent_tag} --pretty="%s")
+            echo "$release_note" >> $GITHUB_STEP_SUMMARY
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
