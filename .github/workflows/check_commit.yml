@@ -44,7 +44,8 @@ jobs:
                       last_commit_number=$(echo $recent_tag | awk -F"-" '{print $2}')
                       if [ "$commit_number" -gt "$last_commit_number" ]; then
                         echo "New changes has been found on the branch."
-                        $new_tag=$(date '+%Y%m%d')-"${commit_number}"-0001
+                        commit_number_str=$(printf "%04d" "$commit_number")
+                        $new_tag=$(date '+%Y%m%d')-"${commit_number_str}"-0001
                       else
                         echo "No commit has been commited."
                         new_value=$((subrelease_no+1))
