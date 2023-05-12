@@ -71,9 +71,14 @@ jobs:
             git pull
             echo "| Commit_ID(sha Hash) | Number of commits from last Tag |" >> $GITHUB_STEP_SUMMARY
             echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
-            commit_id=$(git log ${recent_tag}..${new_tag} --pretty="%h")
-            release_note=$(git log ${recent_tag}..${new_tag} --pretty="%s")
-            echo "| $commit_id | $release_note |" >> $GITHUB_STEP_SUMMARY
+            release_note=$(git log ${recent_tag}..${new_tag} --pretty="%H %s")
+            for commit in $release_note
+            do
+              commit_id=$(echo $commit | awk '{print $1}')
+              commit_msg=$(echo $commit | awk '{print $2}')
+              printf "%-9s | %s\n" "$commit_id" "$commit_msg"
+              echo "| $commit_id | $commit_msg |" >> $GITHUB_STEP_SUMMARY
+            done      
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
