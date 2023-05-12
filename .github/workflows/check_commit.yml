@@ -73,7 +73,7 @@ jobs:
             echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
             commit_id=$(git log ${recent_tag}..${new_tag} --pretty="%h")
             release_note=$(git log ${recent_tag}..${new_tag} --pretty="%s")
-            echo "| `$commit_id` | $release_note |" >> $GITHUB_STEP_SUMMARY
+            echo "| $commit_id | $release_note |" >> $GITHUB_STEP_SUMMARY
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
