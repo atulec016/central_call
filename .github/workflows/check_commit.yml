@@ -69,11 +69,11 @@ jobs:
             git tag $new_tag main
             git push origin $new_tag
             git pull
-            echo "Number of commits from last Tag" >> $GITHUB_STEP_SUMMARY
-            echo "=======================================================" >> $GITHUB_STEP_SUMMARY
+            echo "| Number of commits from last Tag |" >> $GITHUB_STEP_SUMMARY
+            echo "| ======================================================= |" >> $GITHUB_STEP_SUMMARY
             release_note=$(git log ${recent_tag}..${new_tag} --pretty="%s")
-            echo "$release_note" >> $GITHUB_STEP_SUMMARY
-            echo "=======================================================" >> $GITHUB_STEP_SUMMARY
+            echo "| $release_note |" >> $GITHUB_STEP_SUMMARY
+            echo "| ======================================================= |" >> $GITHUB_STEP_SUMMARY
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
