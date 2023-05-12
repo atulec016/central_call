@@ -68,7 +68,8 @@ jobs:
             echo $new_tag
             git tag $new_tag main
             git push origin $new_tag
-            release_note=$(git log ${new_tag}..${recent_tag} --pretty="%s")
+            git pull
+            release_note=$(git log ${recent_tag}..${new_tag} --pretty="%s")
             echo "$release_note" >> $GITHUB_STEP_SUMMARY
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
