@@ -24,7 +24,7 @@ jobs:
             for item in $recent_tag_all
             do
              middle=$(echo $item | cut -d'-' -f2)
-             if [ $middle >= $larger ]; then
+             if [ $middle -ge $larger ]; then
              larger=$middle
              value=$item
              fi
