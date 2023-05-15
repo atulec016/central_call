@@ -47,6 +47,7 @@ jobs:
               echo "Recent Tag is null as the tags may not be in format"
             else
               echo "Tag is not null"
+            fi
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
