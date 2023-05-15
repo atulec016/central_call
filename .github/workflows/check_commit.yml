@@ -31,10 +31,10 @@ jobs:
                 if [[ $middle == *"."* ]]; then
                   echo "The string contains a dot.Tag is not in the proper format"
                 else
-                  if [ $middle \> $max_middle ]; then
+                  if [ $middle -gt $max_middle ]; then
                     max_middle=$middle
                     max_values=($item)
-                  elif [ $middle \= $max_middle ]; then
+                  elif [ $middle -eq $max_middle ]; then
                     max_values+=($item)
                   fi
                 fi
