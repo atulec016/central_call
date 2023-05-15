@@ -20,28 +20,33 @@ jobs:
             git checkout main
             git pull --rebase
             recent_tag_all=$(git tag --sort=-creatordate)
+            commit_number=$(git rev-list --count HEAD)
             max_middle=0
             max_values=()
             for item in $recent_tag_all; do
               middle=$(echo $item | awk -F"-" '{print $2}')
-            if [ -z "$middle" ]; then
-              echo "Commit number is missing in the provided tag.Tag is not the proper format"
-            else
-              if [[ $middle == *"."* ]]; then
-                echo "The string contains a dot.Tag is not in the proper format"
+              if [ -z "$middle" ]; then
+                echo "Commit number is missing in the provided tag.Tag is not the proper format"
               else
-                if [ $middle \> $max_middle ]; then
-                  max_middle=$middle
-                  max_values=($item)
-                elif [ $middle \= $max_middle ]; then
-                  max_values+=($item)
+                if [[ $middle == *"."* ]]; then
+                  echo "The string contains a dot.Tag is not in the proper format"
+                else
+                  if [ $middle \> $max_middle ]; then
+                    max_middle=$middle
+                    max_values=($item)
+                  elif [ $middle \= $max_middle ]; then
+                    max_values+=($item)
+                  fi
                 fi
               fi
-            fi
-          done
-          echo "The values with the maximum middle value ($max_middle) are: ${max_values[@]}"
-          recent_tag=$(echo "${max_values[@]}" | tr ' ' '\n' | sort -u | tail -n 1)
-          echo "The value with the maximum middle value ($max_middle) and the highest suffix is: ${recent_tag}"
+            done
+            echo "The values with the maximum middle value ($max_middle) are: ${max_values[@]}"
+            recent_tag=$(echo "${max_values[@]}" | tr ' ' '\n' | sort -u | tail -n 1)
+            echo "The value with the maximum middle value ($max_middle) and the highest suffix is: ${recent_tag}"
+            if [ -n "$recent_tag" ]; then
+              echo "Recent Tag is null as the tags may not be in format"
+            else
+              echo "Tag is not null"
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
