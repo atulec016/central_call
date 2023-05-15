@@ -19,7 +19,17 @@ jobs:
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
             git pull --rebase
-            recent_tag_all=$(git tag --sort=-creatordate)  
+            recent_tag_all=$(git tag --sort=-creatordate)
+            larger=0
+            for item in $recent_tag_all
+            do
+             middle=$(echo $item | cut -d'-' -f2)
+             if [ $middle -gt $larger ]; then
+             larger=$middle
+             value=$item
+             fi
+            done
+            echo "The value with the larger number is: $value"
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
