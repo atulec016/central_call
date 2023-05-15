@@ -80,7 +80,7 @@ jobs:
             git pull
             echo "| Commit_ID(sha Hash) | Number of commits from last Tag |" >> $GITHUB_STEP_SUMMARY
             echo "| :---: | :---: |" >> $GITHUB_STEP_SUMMARY
-            release_note=$(git log ${recent_tag}..${new_tag} --pretty="%H %s" | while read commit_id commit_msg; do echo "| $commit_id | $commit_msg |" >> $GITHUB_STEP_SUMMARY; done)
+            release_note=$(git log ${last_recent_tag}..${new_tag} --pretty="%H %s" | while read commit_id commit_msg; do echo "| $commit_id | $commit_msg |" >> $GITHUB_STEP_SUMMARY; done)
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
