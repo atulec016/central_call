@@ -41,12 +41,37 @@ jobs:
               fi
             done
             echo "The values with the maximum middle value ($max_middle) are: ${max_values[@]}"
-            recent_tag=$(echo "${max_values[@]}" | tr ' ' '\n' | sort -u | tail -n 1)
-            echo "The value with the maximum middle value ($max_middle) and the highest suffix is: ${recent_tag}"
-            if [ -z "$recent_tag" ]; then
+            last_recent_tag=$(echo "${max_values[@]}" | tr ' ' '\n' | sort -u | tail -n 1)
+            echo "The value with the maximum middle value ($max_middle) and the highest suffix is: ${last_recent_tag}"
+            if [ -z "$last_recent_tag" ]; then
               echo "Recent Tag is null as the tags may not be in format"
             else
               echo "Tag is not null"
+              subrelease_no=$(echo $last_recent_tag | awk -F"-" '{print $3}')
+                if [ -z "$subrelease_no" ]; then
+                  echo "Tag does not have any sub tag number"
+                  last_commit_number=$(echo $last_recent_tag | awk -F"-" '{print $2}')
+                  if [ -z "$last_commit_number" ]; then
+                    echo "Recent tag doesnot have any commit number"
+                    new_tag=$(date '+%Y%m%d')-${commit_number}-0001
+                  else
+                        new_tag=$(date '+%Y%m%d')-"${commit_number}"-0001
+                  fi
+                else
+                  last_commit_number=$(echo $last_recent_tag | awk -F"-" '{print $2}')
+                  if [ "$commit_number" -gt "$last_commit_number" ]; then
+                     echo "New changes has been found on the branch."
+                     new_tag=$(date '+%Y%m%d')-"${commit_number}"-0001
+                  else
+                    echo "No commit has been commited."
+                    new_value=$((subrelease_no+1))
+                    new_value_str=$(printf "%04d" "$new_value")
+                    echo $new_value_str
+                    release_no=$(echo $recent_tag | awk -F"-" '{print $2}')
+                    new_tag=$(date '+%Y%m%d')-"${commit_number}"-"${new_value_str}"
+                    echo $new_tag
+                  fi
+                fi
             fi
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
