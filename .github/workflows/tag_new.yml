@@ -21,13 +21,18 @@ jobs:
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
             git pull --rebase
-            # recent_tag_all=$(curl "https://api.github.com/repos/$GITHUB_REPOSITORY/tags" -H "Authorization:Bearer ${{ secrets.GIT_TOKEN }}" | jq -r '.[0].name')
-            recent_tag_all=''
+            recent_tag_all=$(curl "https://api.github.com/repos/$GITHUB_REPOSITORY/tags" -H "Authorization:Bearer ${{ secrets.GIT_TOKEN }}" | jq -r '.[0].name')
             echo $recent_tag_all
             commit_number=$(git rev-list --count HEAD)
             # checking if the last tag was in proper format : <date>-Commit_number-<sub_release>
             if [[ $recent_tag_all =~ ^[0-9]{8}-[0-9]+-[0-9]{4}$ ]]; then
-              echo "The tag is in format"
+              echo "The tag is in proper format"
+              commit_number_on_tag=$(echo $recent_tag_all |awk -F"-" '{print $2}')
+              if [ "$commit_number_on_tag" -eq "$commit_number" ]; then
+                echo "Commit number is same, increment the sub release number"
+                tag_split_count=$(((echo $recent_tag_all | awk -F"-" '{print $3}') +1))
+                tag_count_on_commit_number=$(printf "%04d" "$tag_split_count")
+                echo $tag_count_on_commit_number
             else
               echo "The tag is not in correct format"
             fi   
