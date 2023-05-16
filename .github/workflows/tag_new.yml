@@ -21,7 +21,7 @@ jobs:
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
             git pull --rebase
-            recent_tag_all=$(curl "https://api.github.com/repos/${{ GITHUB_REPOSITORY }}/tags" -H "Authorization:Bearer ${{ secrets.GIT_TOKEN }}" | jq -r '.[0].name')
+            recent_tag_all=$(curl "https://api.github.com/repos/$GITHUB_REPOSITORY/tags" -H "Authorization:Bearer ${{ secrets.GIT_TOKEN }}" | jq -r '.[0].name')
             echo $recent_tag_all
             commit_number=$(git rev-list --count HEAD)
             # checking if the last tag was in proper format : <date>-Commit_number-<sub_release>
