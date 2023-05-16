@@ -1,7 +1,7 @@
 name: create automatic Tags workflow 
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   Update-tag:
