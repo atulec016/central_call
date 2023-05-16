@@ -2,6 +2,10 @@ name: create automatic Tags workflow
 
 on:
   workflow_call:
+   secrets:
+      GIT_TOKEN: 
+        description: 'GIT PAT token'
+        required: true
 
 jobs:
   Update-tag:
