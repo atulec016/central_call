@@ -1,11 +1,11 @@
-name: create Tags workflow
+name: create automatic Tags workflow 
 
 on:
   workflow_dispatch:
 
 jobs:
-  check-commit:
-    runs-on: [ self-hosted, dev ]
+  Update-tag:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout branch "main"
         uses: actions/checkout@v3
