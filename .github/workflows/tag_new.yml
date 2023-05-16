@@ -30,17 +30,20 @@ jobs:
               commit_number_on_tag=$(echo $recent_tag_all |awk -F"-" '{print $2}')
               if [ "$commit_number_on_tag" -eq "$commit_number" ]; then
                 echo "Commit number is same, increment the sub release number"
-                tag_split_count=$(((echo $recent_tag_all | awk -F"-" '{print $3}') +1))
-                tag_count_on_commit_number=$(printf "%04d" "$tag_split_count")
+                tag_split_count=$(echo $recent_tag_all | awk -F"-" '{print $3}')
+                tag_split_count_increment=$((tag_split_count+1))
+                tag_count_on_commit_number=$(printf "%04d" "$tag_split_count_increment")
                 echo $tag_count_on_commit_number
                 $new_tag=$(date '+%Y%m%d')-"${commit_number_on_tag}"-"${tag_count_on_commit_number}"
               else
                 echo "Commit number on tag is different from the total commit number"
-                new_tag=$(date '+%Y%m%d')-"${commit_number}"-0001
+                tag_count_on_commit_number=1
+                new_tag=$(date '+%Y%m%d')-"${commit_number}"-000${tag_count_on_commit_number}
               fi
             else
               echo "The tag is not in correct format"
-              new_tag=$(date '+%Y%m%d')-"${commit_number}"-0001
+              tag_count_on_commit_number=1
+              new_tag=$(date '+%Y%m%d')-"${commit_number}"-000${tag_count_on_commit_number}
             fi
             echo $new_tag
             git tag $new_tag main
