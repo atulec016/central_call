@@ -35,7 +35,7 @@ jobs:
                 tag_split_count_increment=$((tag_split_count+1))
                 tag_count_on_commit_number=$(printf "%04d" "$tag_split_count_increment")
                 echo $tag_count_on_commit_number
-                $new_tag=$(date '+%Y%m%d')-"${commit_number_on_tag}"-"${tag_count_on_commit_number}"
+                new_tag=$(date '+%Y%m%d')-"${commit_number_on_tag}"-"${tag_count_on_commit_number}"
               else
                 echo "Commit number on tag is different from the total commit number"
                 new_tag=$(date '+%Y%m%d')-"${commit_number}"-000${tag_count_on_commit_number}
