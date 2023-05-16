@@ -24,6 +24,7 @@ jobs:
             recent_tag_all=$(curl "https://api.github.com/repos/$GITHUB_REPOSITORY/tags" -H "Authorization:Bearer ${{ secrets.GIT_TOKEN }}" | jq -r '.[0].name')
             echo $recent_tag_all
             commit_number=$(git rev-list --count HEAD)
+            tag_count_on_commit_number=1
             # checking if the last tag was in proper format : <date>-Commit_number-<sub_release>
             if [[ $recent_tag_all =~ ^[0-9]{8}-[0-9]+-[0-9]{4}$ ]]; then
               echo "The tag is in proper format"
@@ -37,12 +38,10 @@ jobs:
                 $new_tag=$(date '+%Y%m%d')-"${commit_number_on_tag}"-"${tag_count_on_commit_number}"
               else
                 echo "Commit number on tag is different from the total commit number"
-                tag_count_on_commit_number=1
                 new_tag=$(date '+%Y%m%d')-"${commit_number}"-000${tag_count_on_commit_number}
               fi
             else
               echo "The tag is not in correct format"
-              tag_count_on_commit_number=1
               new_tag=$(date '+%Y%m%d')-"${commit_number}"-000${tag_count_on_commit_number}
             fi
             echo $new_tag
