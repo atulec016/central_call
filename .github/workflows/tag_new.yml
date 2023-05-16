@@ -19,8 +19,8 @@ jobs:
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
             git pull --rebase
-            recent_tag_all=$(curl "https://api.github.com/repos/atulec016/central_call/tags" -H "Authorization: Bearer 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" | jq -r '.[0].name')
-            echo ${recent_tag_all}
+            recent_tag_all=$(curl "https://api.github.com/repos/atulec016/central_call/tags" -H "Authorization: Bearer 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" | jq -r '.[0].name')
+            echo $recent_tag_all
             commit_number=$(git rev-list --count HEAD)
             # checking if the last tag was in proper format : <date>-Commit_number-<sub_release>
             if [[ $recent_tag_all=~^[0-9]{8}-[0-9]+-[0-9{4}$ ]]; then
