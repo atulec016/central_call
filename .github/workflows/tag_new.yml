@@ -38,7 +38,7 @@ jobs:
                 $new_tag=$(date '+%Y%m%d')-"${commit_number_on_tag}"-"${tag_count_on_commit_number}"
               else
                 echo "Commit number on tag is different from the total commit number"
-                new_tag=$(date '+%Y%m%d')-"${commit_number}"-${tag_count_on_commit_number}
+                new_tag=$(date '+%Y%m%d')-"${commit_number}"-000${tag_count_on_commit_number}
               fi
             else
               echo "The tag is not in correct format"
