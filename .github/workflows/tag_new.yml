@@ -34,11 +34,14 @@ jobs:
                 tag_count_on_commit_number=$(printf "%04d" "$tag_split_count")
                 echo $tag_count_on_commit_number
               else
-                echo "tgaing"
+                echo "Commit number on tag is different from the total commit number"
+                new_tag=$(date '+%Y%m%d')-"${commit_number}"-0001
               fi
             else
               echo "The tag is not in correct format"
-            fi   
+              new_tag=$(date '+%Y%m%d')-"${commit_number}"-0001
+            fi
+            echo $new_tag
           else 
              echo "There are uncommited changes available on the branch.Please check and run tag"
              exit 1
