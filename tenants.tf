@@ -1,5 +1,6 @@
 tenants = {
     sample6 = {}
+    next issamsung
 
     }
 tenants = {
