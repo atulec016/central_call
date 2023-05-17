@@ -51,6 +51,8 @@ jobs:
             echo $new_tag
             #git tag $new_tag main
             commit_id=$(git log main -1 --format=%H)
+            git config --global user.email atulec016@gmail.com"
+            git config --global user.name "atulec016"
             git tag -a ${new_tag} $commit_id -m "Tag:$new_tag"
             git push origin $new_tag
             git pull
