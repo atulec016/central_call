@@ -2,6 +2,10 @@ name: test_yaml
 
 on: 
  workflow_call:
+    secrets:
+      GIT_TOKEN: 
+        description: 'GIT PAT token'
+        required: true
       
 jobs:
   command_test:
