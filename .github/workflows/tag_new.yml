@@ -51,8 +51,8 @@ jobs:
             echo $new_tag
             # git tag $new_tag main
             last_commit_id=$(git log main -1 --pretty='%H')
-            git config --global user.email "atulec016@gmail.com"
-            git config --global user.name "atulec016"
+            # git config --global user.email "atulec016@gmail.com"
+            # git config --global user.name "atulec016"
             body=$(jq -n --arg ref "refs/tags/${new_tag}" --arg sha "${last_commit_id}" '{ref: $ref, sha: $sha}')
             url1="https://api.github.com/repos/$GITHUB_REPOSITORY/git/refs"
             create_tag=$(curl -X POST -H "Authorization: Bearer ${{ secrets.GIT_TOKEN }}" -H "Content-Type: application/json" -d "$body" "$url1")
