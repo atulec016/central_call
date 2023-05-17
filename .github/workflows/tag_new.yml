@@ -50,10 +50,10 @@ jobs:
             fi
             echo $new_tag
             #git tag $new_tag main
-            commit_id=$(git log main -1 --format=%H)
+            last_commit_id=$(git log main -1 --format=%H)
             git config --global user.email atulec016@gmail.com"
             git config --global user.name "atulec016"
-            git tag -a ${new_tag} $commit_id -m "Tag:$new_tag"
+            git tag -a ${new_tag} "${last_commit_id}"
             git push origin $new_tag
             git pull
             echo "| Commit_ID(sha Hash) | Commits for ${new_tag} tag |" >> $GITHUB_STEP_SUMMARY
