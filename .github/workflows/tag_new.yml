@@ -53,8 +53,9 @@ jobs:
             last_commit_id=$(git log main -1 --pretty='%H')
             # git config --global user.email "atulec016@gmail.com"
             # git config --global user.name "atulec016"
-            body=$(jq -n --arg ref "refs/tags/${new_tag}" --arg sha "${last_commit_id}" '{ref: $ref, sha: $sha}')
-            url1="https://api.github.com/repos/$GITHUB_REPOSITORY/git/refs"
+            # body=$(jq -n --arg ref "refs/tags/${new_tag}" --arg sha "${last_commit_id}" '{ref: $ref, sha: $sha}')
+            body=$(jq -n --arg tag "${new_tag}" --arg object "${last_commit_id}" --arg message "Tagging on ${last_commit_id} with new_tag" '{tag: $tag, object: $object, message: $message, type: Commit}')
+            url1="https://api.github.com/repos/$GITHUB_REPOSITORY/git/tags"
             create_tag=$(curl -X POST -H "Authorization: Bearer ${{ secrets.GIT_TOKEN }}" -H "Content-Type: application/json" -d "$body" "$url1")
             # git tag -a "${new_tag}" $last_commit_id -m "Tagging commit ${last_commit_id} for release ${new_tag}"
             # git push origin $new_tag
