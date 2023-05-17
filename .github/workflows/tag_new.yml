@@ -49,11 +49,11 @@ jobs:
               new_tag=$(date '+%Y%m%d')-"${commit_number}"-000${tag_count_on_commit_number}
             fi
             echo $new_tag
-            # git tag $new_tag main
-            last_commit_id=$(git log main -1 --pretty='%H')
-            git config --global user.email "atulec016@gmail.com"
-            git config --global user.name "atulec016"
-            git tag -a "${new_tag}" $last_commit_id -m "Tagging commit ${last_commit_id} for release ${new_tag}"
+            git tag $new_tag main
+            # last_commit_id=$(git log main -1 --pretty='%H')
+            # git config --global user.email "atulec016@gmail.com"
+            # git config --global user.name "atulec016"
+            # git tag -a "${new_tag}" $last_commit_id -m "Tagging commit ${last_commit_id} for release ${new_tag}"
             git push origin $new_tag
             git pull
             echo "| Commit_ID(sha Hash) | Commits for ${new_tag} tag |" >> $GITHUB_STEP_SUMMARY
