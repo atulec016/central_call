@@ -59,7 +59,8 @@ jobs:
             # url1="https://api.github.com/repos/$GITHUB_REPOSITORY/git/refs"
             # create_tag=$(curl -X POST -H "Authorization: Bearer ${{ secrets.GIT_TOKEN }}" -H "Content-Type: application/json" -d "$body" "$url1")
             # git tag -a "${new_tag}" $last_commit_id -m "Tagging commit ${last_commit_id} for release ${new_tag}"
-            git push origin $new_tag
+            # git push origin $new_tag
+            git push github $new_tag
             git pull
             echo "| Commit_ID(sha Hash) | Commits for ${new_tag} tag |" >> $GITHUB_STEP_SUMMARY
             echo "| :---: | :---: |" >> $GITHUB_STEP_SUMMARY
