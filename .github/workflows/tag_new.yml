@@ -3,7 +3,7 @@ name: create automatic Tags workflow
 on:
   workflow_call:
     secrets:
-      GITHUB_TOKEN: 
+      GIT_TOKEN: 
          description: 'GIT PAT token'
          required: true
 
@@ -25,7 +25,7 @@ jobs:
             echo "Working Directory is clean,will now rebase the code"
             git checkout main
             git pull --rebase
-            recent_tag_all=$(curl "https://api.github.com/repos/$GITHUB_REPOSITORY/tags" -H "Authorization:Bearer ${{ secrets.GITHUB_TOKEN }}" | jq -r '.[0].name')
+            recent_tag_all=$(curl "https://api.github.com/repos/$GITHUB_REPOSITORY/tags" -H "Authorization:Bearer ${{ secrets.GIT_TOKEN }}" | jq -r '.[0].name')
             echo $recent_tag_all
             commit_number=$(git rev-list --count HEAD)
             tag_count_on_commit_number=1
@@ -57,7 +57,7 @@ jobs:
             # body=$(jq -n --arg tag "${new_tag}" --arg object "${last_commit_id}" --arg message "Tagging on ${last_commit_id} with ${new_tag}" --arg type "commit" '{tag: $tag, object: $object, message: $message, type: $type}')
             # url1="https://api.github.com/repos/$GITHUB_REPOSITORY/git/tags"
             url1="https://api.github.com/repos/$GITHUB_REPOSITORY/git/refs"
-            create_tag=$(curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" -d "$body" "$url1")
+            create_tag=$(curl -X POST -H "Authorization: Bearer ${{ secrets.GIT_TOKEN }}" -H "Content-Type: application/json" -d "$body" "$url1")
             # git tag -a "${new_tag}" $last_commit_id -m "Tagging commit ${last_commit_id} for release ${new_tag}"
             # git push origin $new_tag
             git pull
