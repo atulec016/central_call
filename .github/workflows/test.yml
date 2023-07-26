@@ -1,7 +1,8 @@
 name: test_yaml
 
 on: 
-  push
+  issue_comment:
+   types: [created]
       
 jobs:
   command_test:
@@ -10,3 +11,10 @@ jobs:
       - name: Code check for commit and update the branch
         run: |
           echo "Tis is test YAml, click [here](https://google.com)" >> $GITHUB_STEP_SUMMARY
+      - name: update comment
+        uses: mshick/add-pr-comment@v2
+        with:
+          repo-token: ${{ secrets.GIT_ACCESS_TOKEN }}
+          allow-repeats: true
+          message: |
+             Tis is test YAml, click [here](https://${{ vars.comment }})
