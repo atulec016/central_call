@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: "20230516-181-0002"
       - name: Code check for commit and update the branch
         run: |
           echo "Tis is test YAml, click [here](https://google.com)" >> $GITHUB_STEP_SUMMARY
