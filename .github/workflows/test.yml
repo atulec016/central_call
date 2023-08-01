@@ -6,19 +6,22 @@ on:
 jobs:
   command_test:
     runs-on: ubuntu-latest
-    environment: dev
     steps:
       - uses: actions/checkout@v3
       - name: Loop and set output
         id: loop
         run: |
-          output=""
+          output=()
           for i in {1..5}; do
-            output+="Loop iteration $i "
-            echo "step_output=this is $i" > $GITHUB_OUTPUT
+            output+=("Loop iteration $i")
           done
-          #echo "loop-output::$output" 
-  
+          output_string=$(IFS=, ; echo "${output[*]}")
+          echo "::set-output name=loop-output::$output_string"
+
       - name: Print loop output
         run: |
-          echo "Loop output: ${{ steps.loop.outputs.step_output }}"
+          loop_output="${{ steps.loop.outputs.loop-output }}"
+          IFS=, read -ra output_array <<< "$loop_output"
+          for item in "${output_array[@]}"; do
+            echo "Loop output: $item"
+          done
