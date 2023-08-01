@@ -15,7 +15,7 @@ jobs:
           output=""
           for i in {1..5}; do
             output+="Loop iteration $i "
-            echo "step_output=this is $i" >> $GITHUB_OUTPUT
+            echo "step_output=this is $i" > $GITHUB_OUTPUT
           done
           #echo "loop-output::$output" 
   
