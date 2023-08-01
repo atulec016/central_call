@@ -19,6 +19,7 @@ jobs:
             else
               echo "$output=number is odd" >> $GITHUB_OUTPUT
             # output+=("Loop iteration $i")
+            fi
           done
           output_string=$(IFS=, ; echo "${output[*]}")
           echo "loop-output::$output_string" >> $GITHUB_OUTPUT
