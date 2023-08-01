@@ -18,12 +18,13 @@ jobs:
           output=()
           for i in {1..5}; do
             if [ $(expr $i % 2) == 0 ]; then
-              echo "output+=number is even"
+               output+="number is even"
             else
-              echo "output+=number is odd"
+              output+="number is odd"
             fi
             output_string=$(IFS=, ; echo "${output[*]}")
-            echo "loop-output=$output_string"
+            echo "loop-output=$output_string" >> $GITHUB_OUTPUT
+            echo $loop-output >> msg.txt
           done
       - name: Print loop output
         run: |
@@ -31,9 +32,7 @@ jobs:
           IFS=, read -ra output_array <<< "$loop_output"
           for item in "${output_array[@]}"; do
             echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
-            cat "Loop-output: $item" >> msg.txt
           done
-          
       - uses: mshick/add-pr-comment@v2
         if: always()
         with:
