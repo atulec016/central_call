@@ -31,11 +31,13 @@ jobs:
           loop_output="${{ steps.loop.outputs.loop-output }}"
           IFS=, read -ra output_array <<< "$loop_output"
           for item in "${output_array[@]}"; do
-            echo "Loop-output: $item"
+            echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
           done
+          
       - uses: mshick/add-pr-comment@v2
         if: always()
         with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           message-path: |
              msg.txt
 
