@@ -22,7 +22,7 @@ jobs:
             # output+=("Loop iteration $i")
             fi
             output_string=$(IFS=, ; echo "${output[*]}")
-            echo "loop-output::$output_string" >> $GITHUB_OUTPUT
+            echo "loop-output=$output_string" >> $GITHUB_OUTPUT
           done
 
       - name: Print loop output
