@@ -11,6 +11,7 @@ jobs:
       - name: Loop and set output
         id: loop
         run: |
+          set -eux
           output=()
           for i in {1..5}; do
             if [ `expr $i % 2` == 0 ]
