@@ -8,49 +8,36 @@ jobs:
   command_test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Loop and set output
         id: loop
         run: |
           set -eux
           output=()
           for i in {1..5}; do
-            if [ `expr $i % 2` == 0 ]
-            then
-               output+=("number is even")
+            if [ $(expr $i % 2) == 0 ]; then
+              echo "output+=number is even"
             else
-               output+=("number is odd")
+              echo "output+=number is odd"
             fi
             output_string=$(IFS=, ; echo "${output[*]}")
-            echo "loop-output=$output_string"
+            echo "loop-output=$output_string" >> $GITHUB_OUTPUT
           done
 
       - name: Print loop output
-        run: |
-          loop_output="${{ steps.loop.outputs.loop-output }}"
-          IFS=, read -ra output_array <<< "$loop_output"
-          for item in "${output_array[@]}"; do
-            echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
-            echo "Loop-output: $item" >> msg.txt
-          done
-      - uses: mshick/add-pr-comment@v2
-        if: always()
+        id: print-loop-output
+        uses: actions/github-script@v4
         with:
-          message-path: |
-             msg.txt
-          
-      # - name: Print loop output in comment
-      #   id: print-loop-output
-      #   uses: actions/github-script@v4
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       const loopOutput = context.payload.workflow_run.jobs['print-loop-output'].steps.loop.outputs['loop-output'];
-      #       const outputArray = loopOutput.split(',');
-      #       const commentBody = outputArray.map(item => `Loop output: ${item}`).join('\n');
-      #       github.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: commentBody
-      #       });
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const loopOutput = context.payload.workflow_run.jobs['print-loop-output'].steps.loop.outputs['loop-output'];
+            const outputArray = loopOutput.split(',');
+            const commentBody = outputArray.map(item => `Loop output: ${item}`).join('\n');
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody
+            });
