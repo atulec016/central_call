@@ -22,7 +22,7 @@ jobs:
                output+=("number is odd")
             fi
             output_string=$(IFS=, ; echo "${output[*]}")
-            echo "loop-output=$output_string" >> $GITHUB_OUTPUT
+            echo "loop-output=$output_string"
           done
 
       - name: Print loop output
@@ -31,20 +31,26 @@ jobs:
           IFS=, read -ra output_array <<< "$loop_output"
           for item in "${output_array[@]}"; do
             echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
+            echo "Loop-output: $item" >> msg.txt
           done
-          
-      - name: Print loop output in comment
-        id: print-loop-output
-        uses: actions/github-script@v4
+      - uses: mshick/add-pr-comment@v2
+        if: always()
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const loopOutput = context.payload.workflow_run.jobs['print-loop-output'].steps.loop.outputs['loop-output'];
-            const outputArray = loopOutput.split(',');
-            const commentBody = outputArray.map(item => `Loop output: ${item}`).join('\n');
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: commentBody
-            });
+          message-path: |
+             msg.txt
+          
+      # - name: Print loop output in comment
+      #   id: print-loop-output
+      #   uses: actions/github-script@v4
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       const loopOutput = context.payload.workflow_run.jobs['print-loop-output'].steps.loop.outputs['loop-output'];
+      #       const outputArray = loopOutput.split(',');
+      #       const commentBody = outputArray.map(item => `Loop output: ${item}`).join('\n');
+      #       github.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: commentBody
+      #       });
