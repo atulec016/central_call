@@ -20,9 +20,10 @@ jobs:
               echo "$output=number is odd" >> $GITHUB_OUTPUT
             # output+=("Loop iteration $i")
             fi
+            output_string=$(IFS=, ; echo "${output[*]}")
+            echo "loop-output::$output_string" >> $GITHUB_OUTPUT
           done
-          output_string=$(IFS=, ; echo "${output[*]}")
-          echo "loop-output::$output_string" >> $GITHUB_OUTPUT
+
       - name: Print loop output
         run: |
           loop_output="${{ steps.loop.outputs.loop-output }}"
