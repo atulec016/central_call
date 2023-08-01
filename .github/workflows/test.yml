@@ -24,14 +24,14 @@ jobs:
             fi
             output_string=$(IFS=, ; echo "${output[*]}")
             echo "loop-output=$output_string" >> $GITHUB_OUTPUT
-            echo $loop-output >> msg.txt
+            echo "$output_string" >> msg.txt
           done
       - name: Print loop output
         run: |
           loop_output="${{ steps.loop.outputs.loop-output }}"
           IFS=, read -ra output_array <<< "$loop_output"
           for item in "${output_array[@]}"; do
-            echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
+            echo "Loop-output: $item"
           done
       - uses: mshick/add-pr-comment@v2
         if: always()
