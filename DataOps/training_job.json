@@ -1,0 +1,137 @@
+{
+  "name":"test_1",
+  "email_notifications":{
+     "no_alert_for_skipped_runs":false
+  },
+  "webhook_notifications":{
+      "on_success":[
+         {
+            "id":"ecf6966c-86e0-48e8-8577-c6d81b5d19a2"
+         }
+      ],
+      "on_failure":[
+         {
+            "id":"ecf6966c-86e0-48e8-8577-c6d81b5d19a2"
+         }
+      ]  
+  },
+  "timeout_seconds":0,
+  "max_concurrent_runs":1,
+  "tasks":[
+     {
+        "task_key":"Cube_Azure_SQL_Server_Master_data",
+        "depends_on":[
+           
+        ],
+        "notebook_task":{
+           "notebook_path":"notebooks/procurement_analytics/Cube Workflow/Import from Cube SQL Server Master",
+           "source":"GIT"
+        },
+        "job_cluster_key":"procurement-analytics",
+        "timeout_seconds":0,
+        "email_notifications":{
+           
+        }
+     },
+     {
+        "task_key":"Cube_Azure_SQL_Server_Transaction_data",
+        "depends_on":[
+           {
+              "task_key":"Cube_Azure_SQL_Server_Master_data"
+           }
+        ],
+        "notebook_task":{
+           "notebook_path":"notebooks/procurement_analytics/Cube Workflow/Import from Cube SQL Server Transaction",
+           "source":"GIT"
+        },
+        "job_cluster_key":"procurement-analytics",
+        "timeout_seconds":0,
+        "email_notifications":{
+           
+        }
+     },
+     {
+        "task_key":"Cube_Azure_SQL_Server_BYOD_data",
+        "depends_on":[
+           {
+              "task_key":"Cube_Azure_SQL_Server_Transaction_data"
+           }
+        ],
+        "notebook_task":{
+           "notebook_path":"notebooks/procurement_analytics/Cube Workflow/Import from Cube SQL Server BYOD",
+           "source":"GIT"
+        },
+        "job_cluster_key":"procurement-analytics",
+        "timeout_seconds":0,
+        "email_notifications":{
+           
+        }
+     },
+     {
+        "task_key":"Cube_Azure_SQL_Server_curated_data",
+        "depends_on":[
+           {
+              "task_key":"Cube_Azure_SQL_Server_BYOD_data"
+           }
+        ],
+        "notebook_task":{
+           "notebook_path":"notebooks/procurement_analytics/Cube Workflow/Import from Cube SQL Server Curated",
+           "source":"GIT"
+        },
+        "job_cluster_key":"procurement-analytics",
+        "timeout_seconds":0,
+        "email_notifications":{
+           
+        }
+     },
+     {
+        "task_key":"Cube_Azure_SQL_Server_processed_data",
+        "depends_on":[
+           {
+              "task_key":"Cube_Azure_SQL_Server_curated_data"
+           }
+        ],
+        "notebook_task":{
+           "notebook_path":"notebooks/procurement_analytics/Cube Workflow/Import from Cube SQL Server Processed",
+           "source":"GIT"
+        },
+        "job_cluster_key":"procurement-analytics",
+        "timeout_seconds":0,
+        "email_notifications":{
+           
+        }
+     }
+  ],
+  "git_source":{
+     "git_url":"https://github.com/GILEAD-DNA-PLATFORM/gna-corp-ops-procurement-analytics",
+     "git_provider":"gitHub",
+     "git_branch":"ag/databricks_cicd",
+     "git_tag":"v1",
+     "_comment":"Git branch will be picked on dev and tag will be picked in higher env"
+  },
+  "job_clusters":[
+     {
+        "job_cluster_key":"procurement-analytics",
+        "new_cluster":{
+           "spark_version":"12.0.x-cpu-ml-scala2.12",
+           "node_type_id":"r5n.2xlarge",
+           "data_security_mode":"SINGLE_USER",
+           "policy_id":"E0631F5C0D00520D",
+           "spark_conf":{
+              "spark.speculation":true
+           },
+           "autoscale":{
+              "min_workers":1,
+              "max_workers":2
+           }
+        }
+     }
+  ],
+  "access_control_list":[
+     {
+        "group_name":"group_name_to_be_updated",
+        "_comment":"Group name will be fetched from the env variable during run time",
+        "permission_level":"CAN_MANAGE"
+     }
+  ]
+}
