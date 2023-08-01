@@ -16,14 +16,11 @@ jobs:
           for i in {1..5}; do
             if [ `expr $i % 2` == 0 ]
             then
-              echo "output=number is even"
-              output_string=$(IFS=, ; echo "${output[*]}")
+               output="number is even"
             else
-              echo "output=number is odd"
-              output_string=$(IFS=, ; echo "${output[*]}")
-            # output+=("Loop iteration $i")
+               output="number is odd"
             fi
-            
+            output_string=$(IFS=, ; echo "${output[*]}")
             echo "loop-output=$output_string" >> $GITHUB_OUTPUT
           done
 
