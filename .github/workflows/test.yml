@@ -13,12 +13,15 @@ jobs:
         run: |
           output=()
           for i in {1..5}; do
-            output+=("Loop iteration $i")
-            output_string=$(IFS=, ; echo "${output[*]}")
-            echo "::set-output name=loop-output::$output_string"
+            if [ `expr $i % 2` == 0 ]
+            then
+              echo "$output=number is even" >> $GITHUB_OUTPUT
+            else
+              echo "$output=number is odd" >> $GITHUB_OUTPUT
+            # output+=("Loop iteration $i")
           done
-
-
+          output_string=$(IFS=, ; echo "${output[*]}")
+          echo "loop-output::$output_string" >> $GITHUB_OUTPUT
       - name: Print loop output
         run: |
           loop_output="${{ steps.loop.outputs.loop-output }}"
