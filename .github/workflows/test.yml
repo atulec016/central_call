@@ -14,9 +14,10 @@ jobs:
           output=()
           for i in {1..5}; do
             output+=("Loop iteration $i")
+            output_string=$(IFS=, ; echo "${output[*]}")
+            echo "::set-output name=loop-output::$output_string"
           done
-          output_string=$(IFS=, ; echo "${output[*]}")
-          echo "::set-output name=loop-output::$output_string"
+
 
       - name: Print loop output
         run: |
