@@ -30,9 +30,10 @@ jobs:
           loop_output="${{ steps.loop.outputs.loop-output }}"
           IFS=, read -ra output_array <<< "$loop_output"
           for item in "${output_array[@]}"; do
-            echo "Loop output: $item" >> $GITHUB_STEP_SUMMARY
+            echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
           done
-      - name: Print loop output
+          
+      - name: Print loop output in comment
         id: print-loop-output
         uses: actions/github-script@v4
         with:
