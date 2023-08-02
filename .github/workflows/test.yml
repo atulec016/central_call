@@ -37,8 +37,8 @@ jobs:
 
       - name: testing
         run: |
-          echo "${{steps.loop.outputs.app_name }}"
-          echo "vars.${{steps.loop.outputs.app_name }}_cron_job"
+          echo "${{ steps.loop.outputs.app_name }}"
+          echo "${{ vars[format('{0}_cron_job', steps.loop.outputs.app_name)] }}"
 
           
 
