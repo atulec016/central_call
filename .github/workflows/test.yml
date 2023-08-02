@@ -22,7 +22,7 @@ jobs:
             else
               output+="Number is odd"
             fi
-            output_string=$(printf "%s\n" "${outputs[@]}")
+            output_string=$(echo "%s\n" "${outputs[@]}")
             #output_variable
             #output_string=$(IFS=, ; echo "${output[*]}")
             echo "output_variable=$output_string" >> $GITHUB_OUTPUT
