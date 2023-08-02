@@ -1,7 +1,7 @@
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types:
+      - closed
 
 jobs:
   echo-merged-branch:
@@ -13,4 +13,4 @@ jobs:
 
       - name: Echo Merged Branch
         run: |
-          echo "Merged branch: ${{ github.ref }}"
+          echo "Merged branch: ${{ github.head_ref }}"
