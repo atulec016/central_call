@@ -6,6 +6,7 @@ on:
       
 jobs:
   command_test:
+    environment: dev
     runs-on: ubuntu-latest
     outputs:
       app_name: ${{ steps.loop.outputs.app_name }}
