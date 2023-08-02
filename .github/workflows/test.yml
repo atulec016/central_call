@@ -38,11 +38,14 @@ jobs:
           done
           
       - name: Comment on issue
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
             github-token: ${{ secrets.GITHUB_TOKEN }}
             script: |
-              const output = `Outputs:\n${{ steps.loop.outputs.output_variable }}`;
-              const issueComment = context.issue({ body: output });
-              return github.issues.createComment(issueComment);
+              github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Outputs:\n${{ steps.loop.outputs.output_variable }}`
+              })
 
