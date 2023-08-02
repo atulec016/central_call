@@ -18,27 +18,31 @@ jobs:
           output=()
           for i in {1..5}; do
             if [ $(expr $i % 2) == 0 ]; then
-               output+="number is even\n"
+               echo "output="number is even"
             else
-              output+="number is odd\n"
+              output+="number is odd"
             fi
-            output_string=$(IFS=, ; echo "${output[*]}")
-            echo "loop-output=$output_string" >> $GITHUB_OUTPUT
-            echo "$output_string"
+            output_string=$(printf "%s\n" "${outputs[@]}")
+            #output_variable
+            #output_string=$(IFS=, ; echo "${output[*]}")
+            echo "output_variable=$output_string" >> $GITHUB_OUTPUT
+            #echo "$output_string"
           done
       - name: Print loop output
         run: |
-          loop_output="${{ steps.loop.outputs.loop-output }}"
+          loop_output="${{ steps.loop.outputs.output_variable }}"
           IFS=$'\n', read -ra output_array <<< "$loop_output"
           for item in "${output_array[@]}"; do
             echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
             echo $item >> msg.txt
           done
           
-      - uses: mshick/add-pr-comment@v2
-        if: always()
+      - name: Comment on issue
+        uses: actions/github-script@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          message-path: |
-             msg.txt
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              const output = `Outputs:\n${{ steps.loop.outputs.output_variable }}`;
+              const issueComment = context.issue({ body: output });
+              return github.issues.createComment(issueComment);
 
