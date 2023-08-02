@@ -15,37 +15,22 @@ jobs:
         id: loop
         run: |
           set -eux
-          output=()
+          output_file="output.txt"
           for i in {1..5}; do
             if [ $(expr $i % 2) == 0 ]; then
-              output+="Number is even"
+              output="Number is even"
             else
-              output+="Number is odd"
+              output="Number is odd"
             fi
-            output_string=$(echo "%s\n" "${outputs[@]}")
-            #output_variable
-            #output_string=$(IFS=, ; echo "${output[*]}")
-            echo "output_variable=$output_string" >> $GITHUB_OUTPUT
-            #echo "$output_string"
+            echo "$output" >> "$output_file"
           done
-      - name: Print loop output
-        run: |
-          loop_output="${{ steps.loop.outputs.output_variable }}"
-          IFS=$'\n', read -ra output_array <<< "$loop_output"
-          for item in "${output_array[@]}"; do
-            echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
-            echo $item >> msg.txt
-          done
-          
-      - name: Comment on issue
-        uses: actions/github-script@v6
+
+      - uses: mshick/add-pr-comment@v2
+        if: always()
         with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            script: |
-              github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "${{ steps.loop.outputs.output_variable }}"
-              })
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message-path: |
+             output.txt
+
+          
 
