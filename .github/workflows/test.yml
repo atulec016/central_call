@@ -27,6 +27,7 @@ jobs:
               output="Number is odd"
             fi
             echo "$output" >> "$output_file"
+            echo "${{ steps.loop.outputs.app_name }}"
           done
 
       - uses: mshick/add-pr-comment@v2
@@ -39,8 +40,7 @@ jobs:
       - name: testing
         run: |
           echo "${{ steps.loop.outputs.app_name }}"
-          appname="test"
-          echo "${{ vars[format('{0}_cron_job', appname)] }}"
+          echo "${{ vars[format('{0}_cron_job', steps.loop.outputs.app_name)] }}"
 
           
 
