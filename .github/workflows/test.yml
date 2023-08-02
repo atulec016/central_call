@@ -34,8 +34,8 @@ jobs:
 
       - name: testing
         run: |
-          app_name=test > $GITHUB_ENV
-          echo "${{ vars.${{ env.app_name }}_cron_job }}"
+          app_name=test
+          echo "${{ vars.$app_name-cron_job }}"
 
           
 
