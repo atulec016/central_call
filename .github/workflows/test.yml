@@ -18,9 +18,9 @@ jobs:
           output=()
           for i in {1..5}; do
             if [ $(expr $i % 2) == 0 ]; then
-               echo "output="number is even"
+              output+="Number is even"
             else
-              output+="number is odd"
+              output+="Number is odd"
             fi
             output_string=$(printf "%s\n" "${outputs[@]}")
             #output_variable
