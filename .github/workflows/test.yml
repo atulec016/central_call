@@ -18,9 +18,9 @@ jobs:
           output=()
           for i in {1..5}; do
             if [ $(expr $i % 2) == 0 ]; then
-               output+="number is even"
+               output+="number is even\n"
             else
-              output+="number is odd"
+              output+="number is odd\n"
             fi
             output_string=$(IFS=, ; echo "${output[*]}")
             echo "loop-output=$output_string" >> $GITHUB_OUTPUT
@@ -32,7 +32,7 @@ jobs:
           IFS=$'\n', read -ra output_array <<< "$loop_output"
           for item in "${output_array[@]}"; do
             echo "Loop-output: $item" >> $GITHUB_STEP_SUMMARY
-            echo $items >> msg.txt
+            echo $item >> msg.txt
           done
           
       - uses: mshick/add-pr-comment@v2
