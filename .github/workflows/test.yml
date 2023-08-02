@@ -35,7 +35,7 @@ jobs:
       - name: testing
         run: |
           app_name="test"
-          echo "${vars.${app_name}_cron_job}"
+          echo "${{ vars[format(app_name{0},app_name)]_cron_job }}"
 
           
 
