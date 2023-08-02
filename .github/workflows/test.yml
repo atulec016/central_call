@@ -7,6 +7,8 @@ on:
 jobs:
   command_test:
     runs-on: ubuntu-latest
+    outputs:
+      app_name: ${{ steps.loop.outputs.app_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -14,6 +16,7 @@ jobs:
       - name: Loop and set output
         id: loop
         run: |
+          echo "app_name=test" >> $GITHUB_OUTPUT
           set -eux
           output_file="output.txt"
           for i in {1..5}; do
@@ -35,7 +38,7 @@ jobs:
       - name: testing
         run: |
           app_name="test"
-          echo "${{ vars[format('{0}_cron_job',app_name)] }}"
+          echo "${{ vars[format('{0}_cron_job', steps.loop.outputs.app_name)] }}"
 
           
 
