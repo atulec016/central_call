@@ -40,9 +40,8 @@ jobs:
       - name: testing
         run: |
           echo "${{ steps.loop.outputs.app_name }}"
-          echo "appname=test" >> $GITHUB_ENV
-          echo $appname
-          printf "vars.%s_cron_job" "$appname"
+          appname="test"
+          app_new_name=$(printf "vars.%s_cron_job" "$appname")
           echo $app_new_name
 
           
