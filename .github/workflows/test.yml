@@ -17,7 +17,7 @@ jobs:
       - name: Loop and set output
         id: loop
         run: |
-          echo "app_name=test" >> $GITHUB_OUTPUT
+          echo "app_name=test" >> $GITHUB_ENV
           set -eux
           output_file="output.txt"
           for i in {1..5}; do
@@ -28,6 +28,8 @@ jobs:
             fi
             echo "$output" >> "$output_file"
             echo "${{ steps.loop.outputs.app_name }}"
+            echo ${{ env.app_name }}
+            cat $GITHUB_ENV
           done
 
       - uses: mshick/add-pr-comment@v2
