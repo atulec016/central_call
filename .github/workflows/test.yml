@@ -43,6 +43,8 @@ jobs:
           appname="test"
           app_new_name=$(printf "vars.%s_cron_job" "$appname")
           echo $($app_new_name)
+          echo "${{ vars.test_cron_job }}"
+          env
 
           
 
