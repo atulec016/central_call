@@ -39,7 +39,7 @@ jobs:
 
       - name: testing
         run: |
-          echo "${{ vars[format('{0}_cron_job', steps.loop.outputs.app_name] }}"
+          echo "${{ vars[format('{0}_cron_job', steps.loop.outputs.app_name)] }}"
 
           
 
