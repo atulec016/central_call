@@ -42,7 +42,7 @@ jobs:
           echo "${{ steps.loop.outputs.app_name }}"
           appname="test"
           app_new_name=$(printf "vars.%s_cron_job" "$appname")
-          echo $app_new_name
+          echo $($app_new_name)
 
           
 
