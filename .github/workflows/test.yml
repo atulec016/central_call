@@ -38,10 +38,5 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           message-path: |
              output.txt
-
-      - name: testing
-        run: |
-          app_name="test"
-          # echo "${{ vars[format('{0}_cron_job', app_name)] }}"
           
 
