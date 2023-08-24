@@ -1,1 +1,47 @@
-
+{
+    "dev":{
+       "schedule":{
+          "quartz_cron_expression": "",
+          "_comment":"cron job value to be updated runtime using variables",
+          "timezone_id": "",
+          "pause_status":"UNPAUSED"
+       },
+       "trigger":{
+          "pause_status":"UNPAUSED",
+          "file_arrival":{
+             "url":""
+          }
+       },
+       "node_type_id": "r5n.2xlarge"
+    },
+    "tst":{
+       "schedule":{
+          "quartz_cron_expression":"",
+          "_comment":"cron job value to be updated runtime using variables",
+          "timezone_id":"",
+          "pause_status":"UNPAUSED"
+       },
+       "trigger":{
+          "pause_status":"UNPAUSED",
+          "file_arrival":{
+             "url":""
+          }
+       },
+       "node_type_id": "r5n.2xlarge"
+    },
+    "prd":{
+       "schedule":{
+          "quartz_cron_expression":"",
+          "_comment":"cron job value to be updated runtime using variables",
+          "timezone_id":"",
+          "pause_status":"UNPAUSED"
+       },
+       "trigger":{
+          "pause_status":"UNPAUSED",
+          "file_arrival":{
+             "url":""
+          }
+       },
+       "node_type_id": "r5n.2xlarge"
+    }
+ }
